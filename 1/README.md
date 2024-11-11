@@ -58,9 +58,9 @@ python pacman.py -l bigMaze -z .5 -p SearchAgent -a fn=astar,heuristic=manhattan
 
 5. The real power of A* will only be apparent with a more challenging search problem. Now, it's time to formulate a new problem and design a heuristic for it.
 
-In corner mazes, there are four dots, one in each corner. Our new search problem is to find the shortest path through the maze that touches all four corners (whether the maze actually has food there or not). Note that for some mazes like tinyCorners, the shortest path does not always go to the closest food first! The shortest path through tinyCorners takes 28 steps.
+	In corner mazes, there are four dots, one in each corner. Our new search problem is to find the shortest path through the maze that touches all four corners (whether the maze actually has food there or not). Note that for some mazes like tinyCorners, the shortest path does not always go to the closest food first! The shortest path through tinyCorners takes 28 steps.
 
-The ```CornersProblem``` search problem in ```searchAgents.py``` defines an abstract state representation that encodes all the information necessary to detect whether all four corners have been reached without encoding irrelevant information. Now, our search agent solves:
+	The ```CornersProblem``` search problem in ```searchAgents.py``` defines an abstract state representation that encodes all the information necessary to detect whether all four corners have been reached without encoding irrelevant information. Now, our search agent solves:
 ```
 python pacman.py -l tinyCorners -p SearchAgent -a fn=bfs,prob=CornersProblem
 python pacman.py -l mediumCorners -p SearchAgent -a fn=bfs,prob=CornersProblem
