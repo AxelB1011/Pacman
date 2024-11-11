@@ -66,7 +66,13 @@ python pacman.py -l tinyCorners -p SearchAgent -a fn=bfs,prob=CornersProblem
 python pacman.py -l mediumCorners -p SearchAgent -a fn=bfs,prob=CornersProblem
 ```
 
-6. Now, we implement a non-trivial, consistent heuristic for the CornersProblem in cornersHeuristic.
+6. Remember, heuristics are just functions that take search states and return numbers that estimate the cost to a nearest goal. More effective heuristics will return values closer to the actual goal costs. To be admissible, the heuristic values must be lower bounds on the actual shortest path cost to the nearest goal (and non-negative). To be consistent, it must additionally hold that if an action has cost c, then taking that action can only cause a drop in heuristic of at most c.
+
+	Remember that admissibility isn't enough to guarantee correctness in graph search -- we need the stronger condition of consistency. However, admissible heuristics are usually also consistent, especially if they are derived from problem relaxations. Therefore it is usually easiest to start out by brainstorming admissible heuristics. Once we have an admissible heuristic that works well, we can check whether it is indeed consistent, too. The only way to guarantee consistency is with a proof. However, inconsistency can often be detected by verifying that for each node we expand, its successor nodes are equal or higher in in f-value. Moreover, if UCS and A* ever return paths of different lengths, the heuristic is inconsistent. This stuff is tricky!
+
+	The trivial heuristics are the ones that return zero everywhere (UCS) and the heuristic which computes the true completion cost. The former won't save us any time, while the latter will timeout the autograder.
+
+	Now, we implement a non-trivial, consistent heuristic for the CornersProblem in cornersHeuristic.
 ```
 python pacman.py -l mediumCorners -p AStarCornersAgent -z 0.5
 ```
@@ -75,12 +81,6 @@ Note: AStarCornersAgent is a shortcut for
 ```
 -p SearchAgent -a fn=aStarSearch,prob=CornersProblem,heuristic=cornersHeuristic.
 ```
-
-	Remember, heuristics are just functions that take search states and return numbers that estimate the cost to a nearest goal. More effective heuristics will return values closer to the actual goal costs. To be admissible, the heuristic values must be lower bounds on the actual shortest path cost to the nearest goal (and non-negative). To be consistent, it must additionally hold that if an action has cost c, then taking that action can only cause a drop in heuristic of at most c.
-
-	Remember that admissibility isn't enough to guarantee correctness in graph search -- we need the stronger condition of consistency. However, admissible heuristics are usually also consistent, especially if they are derived from problem relaxations. Therefore it is usually easiest to start out by brainstorming admissible heuristics. Once we have an admissible heuristic that works well, we can check whether it is indeed consistent, too. The only way to guarantee consistency is with a proof. However, inconsistency can often be detected by verifying that for each node we expand, its successor nodes are equal or higher in in f-value. Moreover, if UCS and A* ever return paths of different lengths, the heuristic is inconsistent. This stuff is tricky!
-
-	The trivial heuristics are the ones that return zero everywhere (UCS) and the heuristic which computes the true completion cost. The former won't save us any time, while the latter will timeout the autograder.
 
 7. Now we'll solve a hard search problem: eating all the Pacman food in as few steps as possible. For this, we'll need a new search problem definition which formalizes the food-clearing problem: ```FoodSearchProblem``` in ```searchAgents.py```. A solution is defined to be a path that collects all of the food in the Pacman world. For the present project, solutions do not take into account any ghosts or power pellets; solutions only depend on the placement of walls, regular food and Pacman.
 
