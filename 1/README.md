@@ -76,22 +76,22 @@ Note: AStarCornersAgent is a shortcut for
 -p SearchAgent -a fn=aStarSearch,prob=CornersProblem,heuristic=cornersHeuristic.
 ```
 
-Remember, heuristics are just functions that take search states and return numbers that estimate the cost to a nearest goal. More effective heuristics will return values closer to the actual goal costs. To be admissible, the heuristic values must be lower bounds on the actual shortest path cost to the nearest goal (and non-negative). To be consistent, it must additionally hold that if an action has cost c, then taking that action can only cause a drop in heuristic of at most c.
+	Remember, heuristics are just functions that take search states and return numbers that estimate the cost to a nearest goal. More effective heuristics will return values closer to the actual goal costs. To be admissible, the heuristic values must be lower bounds on the actual shortest path cost to the nearest goal (and non-negative). To be consistent, it must additionally hold that if an action has cost c, then taking that action can only cause a drop in heuristic of at most c.
 
-Remember that admissibility isn't enough to guarantee correctness in graph search -- we need the stronger condition of consistency. However, admissible heuristics are usually also consistent, especially if they are derived from problem relaxations. Therefore it is usually easiest to start out by brainstorming admissible heuristics. Once we have an admissible heuristic that works well, we can check whether it is indeed consistent, too. The only way to guarantee consistency is with a proof. However, inconsistency can often be detected by verifying that for each node we expand, its successor nodes are equal or higher in in f-value. Moreover, if UCS and A* ever return paths of different lengths, the heuristic is inconsistent. This stuff is tricky!
+	Remember that admissibility isn't enough to guarantee correctness in graph search -- we need the stronger condition of consistency. However, admissible heuristics are usually also consistent, especially if they are derived from problem relaxations. Therefore it is usually easiest to start out by brainstorming admissible heuristics. Once we have an admissible heuristic that works well, we can check whether it is indeed consistent, too. The only way to guarantee consistency is with a proof. However, inconsistency can often be detected by verifying that for each node we expand, its successor nodes are equal or higher in in f-value. Moreover, if UCS and A* ever return paths of different lengths, the heuristic is inconsistent. This stuff is tricky!
 
-The trivial heuristics are the ones that return zero everywhere (UCS) and the heuristic which computes the true completion cost. The former won't save us any time, while the latter will timeout the autograder.
+	The trivial heuristics are the ones that return zero everywhere (UCS) and the heuristic which computes the true completion cost. The former won't save us any time, while the latter will timeout the autograder.
 
 7. Now we'll solve a hard search problem: eating all the Pacman food in as few steps as possible. For this, we'll need a new search problem definition which formalizes the food-clearing problem: ```FoodSearchProblem``` in ```searchAgents.py```. A solution is defined to be a path that collects all of the food in the Pacman world. For the present project, solutions do not take into account any ghosts or power pellets; solutions only depend on the placement of walls, regular food and Pacman.
 
-We fill in ```foodHeuristic``` in ```searchAgents.py``` with a consistent heuristic for the FoodSearchProblem. Try the agent on the trickySearch board:
+	We fill in ```foodHeuristic``` in ```searchAgents.py``` with a consistent heuristic for the FoodSearchProblem. Try the agent on the trickySearch board:
 ```
 python pacman.py -l trickySearch -p AStarFoodSearchAgent
 ```
 
 8. Sometimes, even with A* and a good heuristic, finding the optimal path through all the dots is hard. In these cases, we'd still like to find a reasonably good path, quickly. In this section, we write an agent that always greedily eats the closest dot in the ```findPathToClosestDot``` function in ```searchAgents.py```.
 
-Our agent solves this maze (suboptimally!) in under a second with a path cost of 350:
+	Our agent solves this maze (suboptimally!) in under a second with a path cost of 350:
 ```
 python pacman.py -l bigSearch -p ClosestDotSearchAgent -z .5
 ```
